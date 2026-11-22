@@ -22,13 +22,13 @@ audit logs      ->  daily calls per person /
 - What did each model cost per day?
 - Who called which model, how often, and from which region?
 - Roughly what did each person's usage cost?
-- Are calls going to a pinned region or to the global endpoint?
+- Which region did each call go to?
 
 ## What's in the repo
 
 | File | What it does |
 |---|---|
-| `sql/01_daily_cost_by_model.sql` | Daily cost per model from the detailed billing export, Vertex AI only. The model comes from the SKU description. Works for Gemini and partner models such as Claude. |
+| `sql/01_daily_cost_by_model.sql` | Daily cost per model from the detailed billing export, Vertex AI only. The model comes from the SKU description, or from the service name for partner models such as Claude, which bill under their own service. |
 | `sql/02_daily_calls_by_person.sql` | Daily calls per person, model, method and region, from the exported audit logs. |
 | `sql/03_estimated_cost_by_person.sql` | Each model's daily cost split by each person's share of that model's calls. Labelled as an estimate in the output. |
 | `sql/04_calls_by_region_view.sql` | A view with one row per call and the region it went to. Optional. |
@@ -56,6 +56,8 @@ bq query --use_legacy_sql=false --dry_run < out/01_daily_cost_by_model.sql
 ```
 
 Run 01 and 02, then 03. Setup shows how to schedule them with `bq mk --transfer_config`.
+
+I run the same join at work. These queries are a clean rewrite of it, checked against Google's docs, so dry-run each one in your own project first. Your export may name things a little differently.
 
 Every value can also come from an environment variable with the placeholder's name, such as `BILLING_TABLE`. `--timezone` sets where days are cut and defaults to UTC. `--audit-table` switches to partitioned log tables.
 
