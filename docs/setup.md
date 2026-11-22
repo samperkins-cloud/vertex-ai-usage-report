@@ -101,12 +101,11 @@ bq query --use_legacy_sql=false --dry_run < out/01_daily_cost_by_model.sql
 
 ## 5. Schedule the queries
 
-A scheduled query with a DDL statement doesn't need a destination table. Run these in order. 03 should run after 01 and 02 have finished, so give it a later time.
+Each query creates its own table with a DDL statement, so the scheduled queries need no destination table or dataset. Run these in order. 03 should run after 01 and 02 have finished, so give it a later time.
 
 ```
 bq mk --transfer_config \
   --project_id=PROJECT_ID \
-  --target_dataset=OUT_DATASET \
   --display_name='ai usage: daily cost by model' \
   --schedule='every 24 hours' \
   --data_source=scheduled_query \
