@@ -30,7 +30,7 @@ audit logs      ->  daily calls per person /
 |---|---|
 | `sql/01_daily_cost_by_model.sql` | Daily cost per model from the detailed billing export, Vertex AI only. The model comes from the SKU description, or from the service name for partner models such as Claude, which bill under their own service. |
 | `sql/02_daily_calls_by_person.sql` | Daily calls per person, model, method and region, from the exported audit logs. |
-| `sql/03_estimated_cost_by_person.sql` | Each model's daily cost split by each person's share of that model's calls. Labelled as an estimate in the output. |
+| `sql/03_estimated_cost_by_person.sql` | Each model's daily cost split by each person's share of that model's calls. Labeled as an estimate in the output. |
 | `sql/04_calls_by_region_view.sql` | A view with one row per call and the region it went to. Optional. |
 | `render.py` | Fills in the `${...}` placeholders and prints or writes the SQL. |
 | `docs/setup.md` | Audit logs, the log sink, the billing export and scheduled queries. |
